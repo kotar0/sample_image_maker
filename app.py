@@ -2,6 +2,7 @@ import os
 from io import BytesIO
 from flask import Flask, jsonify, helpers
 from PIL import Image, ImageDraw, ImageFont
+import random
 
 app = Flask(__name__)
 
@@ -42,7 +43,11 @@ def make_image(category, width, height):
     width = int(width)
     height = int(height)
 
-    original_image_file_name = "{}.jpg".format(category)
+    original_image_files = os.listdir(os.path.join("static", category))
+    count_original_image_files = len(original_image_files)
+    random_numbar_for_pick_file = random.randint(0, count_original_image_files)
+
+    original_image_file_name = original_image_files[random_numbar_for_pick_file]
     original_image_file_path = os.path.join("static", category, original_image_file_name)
     if not os.path.isfile(original_image_file_path):
         return None
